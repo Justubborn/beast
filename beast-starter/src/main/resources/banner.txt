@@ -1,0 +1,8 @@
+${AnsiColor.BLUE}
+ ,~~.,''"'`'.~~.      
+: {` .- _ -. '} ;     
+ `:   O(_)O   ;'      
+  ';  ._|_,  ;`       
+   '`-.\_/,.'` beast    
+${AnsiColor.BRIGHT_MAGENTA}
+::: Project: ${project.name}-${project.version}  ::: Spring-Boot: ${spring-boot.formatted-version}

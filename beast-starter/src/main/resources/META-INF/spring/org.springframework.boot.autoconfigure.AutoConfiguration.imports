@@ -1,0 +1,3 @@
+cn.daben.beast.autoconfigure.ProjectAutoConfig
+cn.daben.beast.autoconfigure.SpringDocAutoConfig
+cn.daben.beast.autoconfigure.CryptoAutoConfig
