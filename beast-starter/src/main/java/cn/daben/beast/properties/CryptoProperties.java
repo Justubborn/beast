@@ -1,6 +1,6 @@
 package cn.daben.beast.properties;
 
-import cn.daben.beast.constant.PropertyConst;
+import cn.daben.beast.constant.PropertiesConst;
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
@@ -9,7 +9,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
  * @since 2024/3/20
  */
 @Data
-@ConfigurationProperties(PropertyConst.CRYPTO)
+@ConfigurationProperties(PropertiesConst.CRYPTO)
 public class CryptoProperties {
     private boolean enabled = true;
     private String password;

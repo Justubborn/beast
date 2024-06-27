@@ -11,7 +11,7 @@
 
     <groupId>cn.daben.beast</groupId>
     <artifactId>beast-parent</artifactId>
-    <version>${revision}</version>
+    <version>1.0.0-SNAPSHOT</version>
     <packaging>pom</packaging>
     <modules>
         <module>beast-starter</module>
@@ -26,17 +26,24 @@
         <emoji.java.version>5.1.1</emoji.java.version>
         <jpinyin.version>1.1.8</jpinyin.version>
         <zxing.version>3.5.0</zxing.version>
-        <spring.boot.version>3.1.0</spring.boot.version>
+        <spring.boot.version>3.2.3</spring.boot.version>
         <satoken.version>1.34.0</satoken.version>
 <!--        <mapstruct.version>1.5.5.Final</mapstruct.version>-->
         <mybatis.plus.version>3.5.5</mybatis.plus.version>
+        <dynamic-datasource.version>4.3.0</dynamic-datasource.version>
+        <p6spy.version>3.9.1</p6spy.version>
         <knife4j.version>4.4.0</knife4j.version>
         <hutool.version>5.8.25</hutool.version>
+        <redisson.version>3.30.0</redisson.version>
+        <tlog.version>1.5.2</tlog.version>
+        <snakeyaml.version>2.2</snakeyaml.version>
+        <okhttp.version>4.12.0</okhttp.version>
+        <ttl.version>2.14.5</ttl.version>
+        <ip2region.version>3.1.11</ip2region.version>
+        <cosid.version>2.6.8</cosid.version>
     </properties>
 
     <dependencyManagement>
-            <!-- ContiNew Starter Dependencies -->
-          
         <dependencies>
 <!--            <dependency>-->
 <!--                <groupId>org.mapstruct</groupId>-->
@@ -49,18 +56,23 @@
 <!--                <version>${mapstruct.version}</version>-->
 <!--            </dependency>-->
             <dependency>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-starter-jdbc</artifactId>
-                <version>${spring.boot.version}</version>
+                <groupId>cn.daben.beast</groupId>
+                <artifactId>beast-starter</artifactId>
+                <version>${project.version}</version>
             </dependency>
             <dependency>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-starter-aop</artifactId>
-                <version>${spring.boot.version}</version>
+                <groupId>cn.daben.beast</groupId>
+                <artifactId>embedded-redis-spring-boot3-starter</artifactId>
+                <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>cn.dev33</groupId>
                 <artifactId>sa-token-spring-boot3-starter</artifactId>
+                <version>${satoken.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>cn.dev33</groupId>
+                <artifactId>sa-token-jwt</artifactId>
                 <version>${satoken.version}</version>
             </dependency>
             <dependency>
@@ -82,6 +94,35 @@
                 <groupId>cn.hutool</groupId>
                 <artifactId>hutool-all</artifactId>
                 <version>${hutool.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.redisson</groupId>
+                <artifactId>redisson-spring-boot-starter</artifactId>
+                <version>${redisson.version}</version>
+            </dependency>
+            <!-- TLog（轻量级的分布式日志标记追踪神器） -->
+            <dependency>
+                <groupId>com.yomahub</groupId>
+                <artifactId>tlog-web-spring-boot-starter</artifactId>
+                <version>${tlog.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.baomidou</groupId>
+                <artifactId>dynamic-datasource-spring-boot3-starter</artifactId>
+                <version>${dynamic-datasource.version}</version>
+            </dependency>
+
+            <!-- P6Spy（SQL 性能分析组件） -->
+            <dependency>
+                <groupId>p6spy</groupId>
+                <artifactId>p6spy</artifactId>
+                <version>${p6spy.version}</version>
+            </dependency>
+            <!-- CosId（通用、灵活、高性能的分布式 ID 生成器） -->
+            <dependency>
+                <groupId>me.ahoo.cosid</groupId>
+                <artifactId>cosid-spring-boot-starter</artifactId>
+                <version>${cosid.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

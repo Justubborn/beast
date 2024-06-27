@@ -16,6 +16,7 @@
 
 package cn.daben.beast.support.excel;
 
+import cn.daben.beast.constant.StringConst;
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.StrUtil;
 import com.alibaba.excel.converters.Converter;
@@ -25,7 +26,6 @@ import com.alibaba.excel.metadata.data.ReadCellData;
 import com.alibaba.excel.metadata.data.WriteCellData;
 import com.alibaba.excel.metadata.property.ExcelContentProperty;
 import org.springframework.stereotype.Component;
-import top.continew.starter.core.constant.StringConstants;
 
 import java.util.List;
 
@@ -57,14 +57,14 @@ public class ExcelListConverter implements Converter<List> {
                                   ExcelContentProperty contentProperty,
                                   GlobalConfiguration globalConfiguration) {
         String stringValue = cellData.getStringValue();
-        return StrUtil.split(stringValue, StringConstants.COMMA);
+        return StrUtil.split(stringValue, StringConst.COMMA);
     }
 
     @Override
     public WriteCellData<Object> convertToExcelData(List value,
                                                     ExcelContentProperty contentProperty,
                                                     GlobalConfiguration globalConfiguration) {
-        WriteCellData<Object> writeCellData = new WriteCellData<>(CollUtil.join(value, StringConstants.COMMA));
+        WriteCellData<Object> writeCellData = new WriteCellData<>(CollUtil.join(value, StringConst.COMMA));
         writeCellData.setType(CellDataTypeEnum.STRING);
         return writeCellData;
     }

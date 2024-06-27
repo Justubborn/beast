@@ -1,6 +1,6 @@
 package cn.daben.beast.properties;
 
-import cn.daben.beast.constant.PropertyConst;
+import cn.daben.beast.constant.PropertiesConst;
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
@@ -9,7 +9,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
  * @since 2024/6/26
  */
 @Data
-@ConfigurationProperties(PropertyConst.PASSWORD)
+@ConfigurationProperties(PropertiesConst.PASSWORD)
 public class PasswordProperties {
     /**
      * 是否启用密码编解码配置

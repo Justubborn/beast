@@ -1,3 +1,8 @@
 cn.daben.beast.autoconfigure.ProjectAutoConfig
-cn.daben.beast.autoconfigure.SpringDocAutoConfig
+cn.daben.beast.autoconfigure.JacksonAutoConfig
 cn.daben.beast.autoconfigure.CryptoAutoConfig
+cn.daben.beast.autoconfigure.PasswordAutoConfig
+cn.daben.beast.autoconfigure.SpringDocAutoConfig
+cn.daben.beast.autoconfigure.RedissonAutoConfiguration
+cn.daben.beast.autoconfigure.MybatisPlusAutoConfig
+cn.daben.beast.autoconfigure.GlobalExceptionHandlerAutoConfig

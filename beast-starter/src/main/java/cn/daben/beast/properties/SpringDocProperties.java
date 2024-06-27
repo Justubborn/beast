@@ -16,9 +16,9 @@
 
 package cn.daben.beast.properties;
 
-import cn.daben.beast.constant.PropertyConst;
+import cn.daben.beast.constant.PropertiesConst;
 import io.swagger.v3.oas.models.Components;
-import lombok.Getter;
+import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.NestedConfigurationProperty;
 
@@ -28,8 +28,8 @@ import org.springframework.boot.context.properties.NestedConfigurationProperty;
  * @author Charles7c
  * @since 1.0.1
  */
-@Getter
-@ConfigurationProperties(prefix = PropertyConst.SPRINGDOC)
+@Data
+@ConfigurationProperties(prefix = PropertiesConst.SPRINGDOC)
 public class SpringDocProperties {
 
     /**

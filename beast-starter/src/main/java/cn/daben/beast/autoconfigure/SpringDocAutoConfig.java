@@ -28,6 +28,8 @@ import io.swagger.v3.oas.models.security.SecurityRequirement;
 import io.swagger.v3.oas.models.security.SecurityScheme;
 import org.springdoc.core.customizers.GlobalOpenApiCustomizer;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.CacheControl;
@@ -42,6 +44,7 @@ import java.util.concurrent.TimeUnit;
  * API 文档自动配置
  *
  */
+@ConditionalOnProperty(name = {"knife4j.enable"}, matchIfMissing = true)
 @AutoConfiguration
 @EnableConfigurationProperties(SpringDocProperties.class)
 public class SpringDocAutoConfig extends AbstractAutoConfig implements WebMvcConfigurer {
@@ -59,6 +62,7 @@ public class SpringDocAutoConfig extends AbstractAutoConfig implements WebMvcCon
      * Open API 配置
      */
     @Bean
+    @ConditionalOnMissingBean
     public OpenAPI openApi(ProjectProperties projectProperties, SpringDocProperties springDocProperties) {
         Info info = new Info().title("%s %s".formatted(projectProperties.getName(), "API 文档"))
                 .version(projectProperties.getVersion())

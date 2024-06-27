@@ -1,12 +1,16 @@
 package cn.daben.beast.base;
 
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.core.metadata.IPage;
+import cn.daben.beast.model.query.PageQuery;
+import cn.daben.beast.model.query.SortQuery;
+import cn.daben.beast.support.web.model.RespEntity;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+
+import java.util.List;
 
 /**
  * 基础控制层
@@ -14,7 +18,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
  * @author Justubborn
  * @since 2022/5/12
  */
-public class BaseController<Service extends BaseService<T>, T extends BaseEntity> {
+public abstract class BaseController<Service extends BaseService<T>, T extends BaseEntity> {
 
     @Autowired(required = false)
     protected Service service;
@@ -22,43 +26,49 @@ public class BaseController<Service extends BaseService<T>, T extends BaseEntity
     public BaseService<T> getService() {
         return service;
     }
-
-    @ResponseBody
-    @PostMapping(value = "create")
+    
+    @Operation(summary = "新增数据", description = "新增数据")
+    @PostMapping(value = "/add")
     public Object add(T entity) {
-        return getService().save(entity);
+        if (getService().save(entity)) {
+            return RespEntity.ok(entity.getId());
+        } else {
+            return RespEntity.fail(entity.getId());
+        }
+    }
+    @Operation(summary = "删除数据", description = "删除数据")
+    @Parameter(name = "ids", description = "ID 列表", example = "1,2")
+    @PostMapping("/remove")
+    public void remove(List<Long> ids) {
+        getService().delete(ids);
     }
 
-    @PostMapping("remove")
-    public void remove(String id) {
-
-        getService().removeById(id);
-
-
-    }
-
-    @GetMapping("get")
+    @Operation(summary = "查询详情", description = "查询详情")
+    @Parameter(name = "id", description = "ID", example = "1")
+    @GetMapping("/get")
     public Object get(Long id) {
         return RespEntity.ok(getService().getById(id));
     }
 
-    @PostMapping("update")
+    @Operation(summary = "修改数据", description = "修改数据")
+    @PostMapping("/update")
     public Object update(T entity) {
-        getService().updateById(entity);
-        return entity.getId();
+        if (getService().updateById(entity)) {
+            return RespEntity.ok(entity.getId());
+        } else {
+            return RespEntity.fail(entity.getId());
+        }
     }
 
-
-    @GetMapping("list")
-    public Object list(T entity) {
-        QueryWrapper<T> wrapper = new QueryWrapper<>(entity);
-        return getService().list(wrapper);
+    @Operation(summary = "查询列表", description = "查询列表")
+    @GetMapping("/list")
+    public Object list(SortQuery query) {
+        return RespEntity.ok(getService().list(null, query));
     }
-
-    @GetMapping("page")
-    public Object page(@Validated T entity, BaseQuery baseQuery) {
-        IPage<T> page = baseQuery.buildPage();
-        QueryWrapper<T> wrapper = new QueryWrapper<>(entity);
-        return getService().page(page, wrapper);
+    
+    @Operation(summary = "分页查询列表", description = "分页查询列表")
+    @GetMapping("/page")
+    public Object page(@Validated T entity, PageQuery query) {
+        return RespEntity.ok(getService().page(entity, query));
     }
 }

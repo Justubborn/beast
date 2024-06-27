@@ -1,8 +1,8 @@
 package cn.daben.beast.autoconfigure;
 
-import cn.daben.beast.constant.PropertyConst;
-import cn.daben.beast.support.mybatis.MyBatisDecryptInterceptor;
-import cn.daben.beast.support.mybatis.MyBatisEncryptInterceptor;
+import cn.daben.beast.constant.PropertiesConst;
+import cn.daben.beast.support.data.mybatis.MyBatisDecryptInterceptor;
+import cn.daben.beast.support.data.mybatis.MyBatisEncryptInterceptor;
 import cn.daben.beast.properties.CryptoProperties;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
@@ -18,7 +18,7 @@ import org.springframework.context.annotation.Bean;
  * @since 2024/3/20
  */
 @RequiredArgsConstructor
-@ConditionalOnProperty(prefix = PropertyConst.CRYPTO, name = PropertyConst.ENABLED, matchIfMissing = true)
+@ConditionalOnProperty(prefix = PropertiesConst.CRYPTO, name = PropertiesConst.ENABLED, matchIfMissing = true)
 @AutoConfiguration
 @EnableConfigurationProperties(CryptoProperties.class)
 public class CryptoAutoConfig extends AbstractAutoConfig {
