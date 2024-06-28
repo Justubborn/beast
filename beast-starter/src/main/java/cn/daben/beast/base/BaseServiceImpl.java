@@ -7,6 +7,7 @@ import cn.daben.beast.model.resp.PageResp;
 import cn.daben.beast.toolkit.ReflectKit;
 import cn.daben.beast.toolkit.ValidationKit;
 import cn.hutool.core.collection.CollUtil;
+import cn.hutool.json.JSONUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -22,7 +23,7 @@ import java.util.Optional;
  *
  * @param <T>
  */
-public class BaseServiceImpl<M extends BaseMapper<T>, T extends BaseEntity> extends ServiceImpl<M, T> implements BaseService<T> {
+public abstract class BaseServiceImpl<M extends BaseMapper<T>, T extends BaseEntity> extends ServiceImpl<M, T> implements BaseService<T> {
     protected final List<Field> entityFields = ReflectKit.getNonStaticFields(this.entityClass);
 
     protected String[] getSearchParam() {
@@ -44,6 +45,8 @@ public class BaseServiceImpl<M extends BaseMapper<T>, T extends BaseEntity> exte
         QueryWrapper<T> queryWrapper = new QueryWrapper<>(entity);
         // 设置排序
         sort(queryWrapper, query);
+       List<T> list = baseMapper.selectList(queryWrapper);
+        System.out.println(JSONUtil.toJsonStr(list));
         return baseMapper.selectList(queryWrapper);
     }
 

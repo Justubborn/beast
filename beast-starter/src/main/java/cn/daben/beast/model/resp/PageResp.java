@@ -2,11 +2,8 @@ package cn.daben.beast.model.resp;
 
 import cn.hutool.core.collection.CollUtil;
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.extension.plugins.pagination.PageDTO;
-import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,15 +12,13 @@ import java.util.List;
  * @since 2022/12/16
  */
 @Data
-public class PageResp<T>  {
+public class PageResp<T> {
 
     /**
      * 总记录数
      */
-    @Schema(description = "总记录数", example = "10")
     long total;
 
-    @Schema(description = "列表数据")
     protected List<T> list;
 
     /**

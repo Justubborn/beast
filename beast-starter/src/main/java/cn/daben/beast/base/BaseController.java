@@ -2,9 +2,6 @@ package cn.daben.beast.base;
 
 import cn.daben.beast.model.query.PageQuery;
 import cn.daben.beast.model.query.SortQuery;
-import cn.daben.beast.support.web.model.RespEntity;
-import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.Parameter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,8 +23,12 @@ public abstract class BaseController<Service extends BaseService<T>, T extends B
     public BaseService<T> getService() {
         return service;
     }
-    
-    @Operation(summary = "新增数据", description = "新增数据")
+
+    /**
+     * 新增数据
+     * @param entity 参数
+     * @return 结果
+     */
     @PostMapping(value = "/add")
     public Object add(T entity) {
         if (getService().save(entity)) {
@@ -36,21 +37,31 @@ public abstract class BaseController<Service extends BaseService<T>, T extends B
             return RespEntity.fail(entity.getId());
         }
     }
-    @Operation(summary = "删除数据", description = "删除数据")
-    @Parameter(name = "ids", description = "ID 列表", example = "1,2")
+
+    /**
+     * 删除数据
+     * @param ids id列表
+     */
     @PostMapping("/remove")
     public void remove(List<Long> ids) {
         getService().delete(ids);
     }
 
-    @Operation(summary = "查询详情", description = "查询详情")
-    @Parameter(name = "id", description = "ID", example = "1")
+    /**
+     * 查询详情
+     * @param id 主键
+     * @return 结果
+     */
     @GetMapping("/get")
     public Object get(Long id) {
         return RespEntity.ok(getService().getById(id));
     }
 
-    @Operation(summary = "修改数据", description = "修改数据")
+    /**
+     * 修改数据
+     * @param entity 参数
+     * @return 结果
+     */
     @PostMapping("/update")
     public Object update(T entity) {
         if (getService().updateById(entity)) {
@@ -60,13 +71,20 @@ public abstract class BaseController<Service extends BaseService<T>, T extends B
         }
     }
 
-    @Operation(summary = "查询列表", description = "查询列表")
+    /**
+     * 查询数据列表
+     * @param query 参数
+     * @return 结果
+     */
     @GetMapping("/list")
     public Object list(SortQuery query) {
         return RespEntity.ok(getService().list(null, query));
     }
-    
-    @Operation(summary = "分页查询列表", description = "分页查询列表")
+    /**
+     * 分页查询列表
+     * @param query 参数
+     * @return 结果
+     */
     @GetMapping("/page")
     public Object page(@Validated T entity, PageQuery query) {
         return RespEntity.ok(getService().page(entity, query));

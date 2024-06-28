@@ -1,0 +1,182 @@
+/*
+ * Copyright (c) 2022-present Charles7c Authors. All Rights Reserved.
+ * <p>
+ * Licensed under the GNU LESSER GENERAL PUBLIC LICENSE 3.0;
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * <p>
+ * http://www.gnu.org/licenses/lgpl.html
+ * <p>
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+package cn.daben.beast.autoconfigure.doc;
+
+import cn.daben.beast.autoconfigure.AbstractAutoConfig;
+import cn.daben.beast.autoconfigure.base.ProjectProperties;
+import cn.hutool.core.map.MapUtil;
+import io.swagger.v3.oas.models.Components;
+import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.info.Contact;
+import io.swagger.v3.oas.models.info.Info;
+import io.swagger.v3.oas.models.info.License;
+import io.swagger.v3.oas.models.security.SecurityRequirement;
+import io.swagger.v3.oas.models.security.SecurityScheme;
+import org.springdoc.core.customizers.GlobalOpenApiCustomizer;
+import org.springdoc.core.customizers.OpenApiBuilderCustomizer;
+import org.springdoc.core.customizers.ServerBaseUrlCustomizer;
+import org.springdoc.core.properties.SpringDocConfigProperties;
+import org.springdoc.core.providers.JavadocProvider;
+import org.springdoc.core.service.OpenAPIService;
+import org.springdoc.core.service.SecurityService;
+import org.springdoc.core.utils.PropertyResolverUtils;
+import org.springframework.boot.autoconfigure.AutoConfiguration;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.context.annotation.Bean;
+import org.springframework.http.CacheControl;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+import java.util.concurrent.TimeUnit;
+
+/**
+ * API 文档自动配置
+ */
+@AutoConfiguration
+@EnableConfigurationProperties(SpringDocProperties.class)
+public class SpringDocAutoConfig extends AbstractAutoConfig implements WebMvcConfigurer {
+
+    @Override
+    public void addResourceHandlers(ResourceHandlerRegistry registry) {
+        registry.addResourceHandler("/favicon.ico").addResourceLocations("classpath:/");
+        registry.addResourceHandler("/doc.html").addResourceLocations("classpath:/META-INF/resources/");
+        registry.addResourceHandler("/webjars/**")
+                .addResourceLocations("classpath:/META-INF/resources/webjars/")
+                .setCacheControl(CacheControl.maxAge(5, TimeUnit.HOURS).cachePublic());
+    }
+
+    /**
+     * Open API 配置
+     */
+
+    @Bean
+    public OpenAPI openApi(ProjectProperties projectProperties, SpringDocProperties springDocProperties) {
+        Info info = convertInfo(projectProperties);
+        OpenAPI openApi = new OpenAPI();
+        openApi.info(info);
+        // 扩展文档信息
+        openApi.externalDocs(springDocProperties.getExternalDocs());
+        openApi.tags(springDocProperties.getTags());
+        openApi.paths(springDocProperties.getPaths());
+        Components components = springDocProperties.getComponents();
+        openApi.components(components);
+        if (null != springDocProperties.getComponents()) {
+            // 鉴权配置
+            Map<String, SecurityScheme> securitySchemeMap = components.getSecuritySchemes();
+            if (MapUtil.isNotEmpty(securitySchemeMap)) {
+                SecurityRequirement securityRequirement = new SecurityRequirement();
+                List<String> list = securitySchemeMap.values().stream().map(SecurityScheme::getName).toList();
+                list.forEach(securityRequirement::addList);
+                openApi.addSecurityItem(securityRequirement);
+            }
+        }
+        return openApi;
+    }
+
+    @Bean
+    public OpenAPIService openApiBuilder(Optional<OpenAPI> openAPI,
+                                         SecurityService securityParser,
+                                         SpringDocConfigProperties springDocConfigProperties, PropertyResolverUtils propertyResolverUtils,
+                                         Optional<List<OpenApiBuilderCustomizer>> openApiBuilderCustomizers,
+                                         Optional<List<ServerBaseUrlCustomizer>> serverBaseUrlCustomizers, Optional<JavadocProvider> javadocProvider) {
+        return new OpenApiHandler(openAPI, securityParser, springDocConfigProperties, propertyResolverUtils, openApiBuilderCustomizers, serverBaseUrlCustomizers, javadocProvider);
+    }
+
+
+    /**
+     * 全局自定义配置（全局添加鉴权参数）
+     */
+    @Bean
+    public GlobalOpenApiCustomizer globalOpenApiCustomizer(SpringDocProperties property) {
+        return openApi -> {
+            if (null == openApi.getPaths()) {
+                return;
+            }
+            openApi.getPaths().forEach((s, pathItem) -> {
+                // 为所有接口添加鉴权
+                Components components = property.getComponents();
+
+                if (null != components && MapUtil.isNotEmpty(components.getSecuritySchemes())) {
+                    Map<String, SecurityScheme> securitySchemeMap = components.getSecuritySchemes();
+                    pathItem.readOperations().forEach(operation -> {
+                        SecurityRequirement securityRequirement = new SecurityRequirement();
+                        List<String> list = securitySchemeMap.values()
+                                .stream()
+                                .map(SecurityScheme::getName)
+                                .toList();
+                        list.forEach(securityRequirement::addList);
+                        operation.addSecurityItem(securityRequirement);
+                    });
+                }
+            });
+        };
+    }
+
+    /**
+     * 对已经生成好的 OpenApi 进行自定义操作
+     */
+//    @Bean
+//    public OpenApiCustomizer openApiCustomizer(ServerProperties serverProperties) {
+//        String contextPath = serverProperties.getServlet().getContextPath();
+//        String finalContextPath;
+//        if (StringUtils.isBlank(contextPath) || "/".equals(contextPath)) {
+//            finalContextPath = "";
+//        } else {
+//            finalContextPath = contextPath;
+//        }
+//        // 对所有路径增加前置上下文路径
+//        return openApi -> {
+//            Paths oldPaths = openApi.getPaths();
+//            if (oldPaths instanceof CustomPaths) {
+//                return;
+//            }
+//            CustomPaths newPaths = new CustomPaths();
+//            oldPaths.forEach((k, v) -> newPaths.addPathItem(finalContextPath + k, v));
+//            openApi.setPaths(newPaths);
+//        };
+//    }
+
+//    /**
+//     * 单独使用一个类便于判断 解决springdoc路径拼接重复问题
+//     */
+//    static class CustomPaths extends Paths {
+//        public CustomPaths() {
+//            super();
+//        }
+//    }
+
+
+    private Info convertInfo(ProjectProperties projectProperties) {
+        Info info = new Info().title("%s %s".formatted(projectProperties.getName(), "API 文档"))
+                .version(projectProperties.getVersion())
+                .description(projectProperties.getDescription());
+        ProjectProperties.Contact contact = projectProperties.getContact();
+        if (null != contact) {
+            info.contact(new Contact().name(contact.getName()).email(contact.getEmail()).url(contact.getUrl()));
+        }
+        ProjectProperties.License license = projectProperties.getLicense();
+        if (null != license) {
+            info.license(new License().name(license.getName()).url(license.getUrl()));
+        }
+        return info;
+    }
+
+
+}

@@ -18,7 +18,7 @@ package cn.daben.beast.support.data.mybatis;
 
 import cn.daben.beast.support.security.crypto.FieldEncrypt;
 import cn.daben.beast.support.security.crypto.IEncryptor;
-import cn.daben.beast.properties.CryptoProperties;
+import cn.daben.beast.autoconfigure.security.CryptoProperties;
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.ReflectUtil;
 import lombok.RequiredArgsConstructor;

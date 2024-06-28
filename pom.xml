@@ -15,6 +15,8 @@
     <packaging>pom</packaging>
     <modules>
         <module>beast-starter</module>
+        <module>beast-doc-starter</module>
+        <module>beast-satoken-starter</module>
     </modules>
 
     <properties>
@@ -33,6 +35,7 @@
         <dynamic-datasource.version>4.3.0</dynamic-datasource.version>
         <p6spy.version>3.9.1</p6spy.version>
         <knife4j.version>4.4.0</knife4j.version>
+        <therapi-javadoc.version>0.15.0</therapi-javadoc.version>
         <hutool.version>5.8.25</hutool.version>
         <redisson.version>3.30.0</redisson.version>
         <tlog.version>1.5.2</tlog.version>
@@ -41,20 +44,11 @@
         <ttl.version>2.14.5</ttl.version>
         <ip2region.version>3.1.11</ip2region.version>
         <cosid.version>2.6.8</cosid.version>
+        <springdoc.version>2.5.0</springdoc.version>
     </properties>
 
     <dependencyManagement>
         <dependencies>
-<!--            <dependency>-->
-<!--                <groupId>org.mapstruct</groupId>-->
-<!--                <artifactId>mapstruct</artifactId> &lt;!&ndash; use mapstruct-jdk8 for Java 8 or higher &ndash;&gt;-->
-<!--                <version>${mapstruct.version}</version>-->
-<!--            </dependency>-->
-<!--            <dependency>-->
-<!--                <groupId>org.mapstruct</groupId>-->
-<!--                <artifactId>mapstruct-processor</artifactId>-->
-<!--                <version>${mapstruct.version}</version>-->
-<!--            </dependency>-->
             <dependency>
                 <groupId>cn.daben.beast</groupId>
                 <artifactId>beast-starter</artifactId>
@@ -62,7 +56,12 @@
             </dependency>
             <dependency>
                 <groupId>cn.daben.beast</groupId>
-                <artifactId>embedded-redis-spring-boot3-starter</artifactId>
+                <artifactId>beast-doc-starter</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>cn.daben.beast</groupId>
+                <artifactId>beast-satoken-starter</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
@@ -84,6 +83,16 @@
                 <groupId>com.github.xiaoymin</groupId>
                 <artifactId>knife4j-openapi3-jakarta-spring-boot-starter</artifactId>
                 <version>${knife4j.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springdoc</groupId>
+                <artifactId>springdoc-openapi-starter-webmvc-api</artifactId>
+                <version>${springdoc.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.github.therapi</groupId>
+                <artifactId>therapi-runtime-javadoc</artifactId>
+                <version>${therapi-javadoc.version}</version>
             </dependency>
             <dependency>
                 <groupId>commons-fileupload</groupId>
@@ -138,6 +147,11 @@
                         <source>${project.compiler.version}</source>
                         <target>${project.compiler.version}</target>
                         <annotationProcessorPaths>
+                            <path>
+                                <groupId>com.github.therapi</groupId>
+                                <artifactId>therapi-runtime-javadoc-scribe</artifactId>
+                                <version>${therapi-javadoc.version}</version>
+                            </path>
                             <path>
                                 <groupId>org.springframework.boot</groupId>
                                 <artifactId>spring-boot-configuration-processor</artifactId>

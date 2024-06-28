@@ -16,7 +16,7 @@
 
 package cn.daben.beast.support.curd;
 
-import cn.daben.beast.support.data.mybatis.plus.base.BaseEnum;
+import cn.daben.beast.base.BaseEnum;
 import cn.hutool.core.convert.Convert;
 import cn.hutool.core.util.ClassUtil;
 import com.alibaba.excel.converters.Converter;

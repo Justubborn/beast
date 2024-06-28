@@ -18,6 +18,7 @@ package cn.daben.beast.support.data.mybatis;
 
 import cn.daben.beast.base.BaseEntity;
 import cn.daben.beast.exception.BusinessException;
+import cn.dev33.satoken.context.SaHolder;
 import cn.hutool.core.util.ObjectUtil;
 import com.baomidou.mybatisplus.core.handlers.MetaObjectHandler;
 import org.apache.ibatis.reflection.MetaObject;
@@ -43,7 +44,7 @@ public class MyBatisPlusMetaObjectHandler implements MetaObjectHandler {
             if (null == metaObject) {
                 return;
             }
-            Long createUser = -1L;
+            Long createUser = SaHolder.getStorage().get("x_user_id",-1L);
             LocalDateTime createTime = LocalDateTime.now();
             if (metaObject.getOriginalObject() instanceof BaseEntity baseEntity) {
                 // 继承了 BaseEntity 的类，填充创建信息字段

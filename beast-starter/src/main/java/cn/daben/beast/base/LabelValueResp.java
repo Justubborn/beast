@@ -17,7 +17,6 @@
 package cn.daben.beast.base;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
 import java.io.Serial;
@@ -30,7 +29,6 @@ import java.io.Serializable;
  * @since 2.1.0
  */
 @Data
-@Schema(description = "键值对信息")
 public class LabelValueResp implements Serializable {
 
     @Serial
@@ -39,25 +37,21 @@ public class LabelValueResp implements Serializable {
     /**
      * 标签
      */
-    @Schema(description = "标签", example = "男")
     private String label;
 
     /**
      * 值
      */
-    @Schema(description = "值", example = "1")
     private Object value;
 
     /**
      * 是否禁用
      */
-    @Schema(description = "是否禁用", example = "false")
     private Boolean disabled;
 
     /**
      * 扩展
      */
-    @Schema(description = "扩展")
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private Object extend;
 
