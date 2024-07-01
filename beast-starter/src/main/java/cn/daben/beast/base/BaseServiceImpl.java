@@ -5,6 +5,7 @@ import cn.daben.beast.model.query.PageQuery;
 import cn.daben.beast.model.query.SortQuery;
 import cn.daben.beast.model.resp.PageResp;
 import cn.daben.beast.toolkit.ReflectKit;
+import cn.daben.beast.toolkit.StringKit;
 import cn.daben.beast.toolkit.ValidationKit;
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.json.JSONUtil;
@@ -12,7 +13,6 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.data.domain.Sort;
-import org.springframework.util.StringUtils;
 
 import java.lang.reflect.Field;
 import java.util.List;
@@ -84,7 +84,7 @@ public abstract class BaseServiceImpl<M extends BaseMapper<T>, T extends BaseEnt
 
 
     protected <Q extends PageQuery> void paging(QueryWrapper<T> queryWrapper, Q query) {
-        if (StringUtils.hasLength(query.getParams()) && getSearchParam().length != 0) {
+        if (StringKit.isNotEmpty(query.getParams()) && getSearchParam().length != 0) {
             queryWrapper.and(p -> {
                 for (String string : getSearchParam()) {
                     p.or(a -> a.like(string, query.getParams()));

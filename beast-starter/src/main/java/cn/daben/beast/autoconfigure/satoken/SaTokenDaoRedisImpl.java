@@ -16,7 +16,7 @@
 
 package cn.daben.beast.autoconfigure.satoken;
 
-import cn.daben.beast.toolkit.RedisUtils;
+import cn.daben.beast.toolkit.RedisKit;
 import cn.dev33.satoken.dao.SaTokenDao;
 import cn.dev33.satoken.util.SaFoxUtil;
 
@@ -35,7 +35,7 @@ public class SaTokenDaoRedisImpl implements SaTokenDao {
 
     @Override
     public String get(String key) {
-        return RedisUtils.get(key);
+        return RedisKit.get(key);
     }
 
     @Override
@@ -45,9 +45,9 @@ public class SaTokenDaoRedisImpl implements SaTokenDao {
         }
         // 判断是否为永不过期
         if (timeout == SaTokenDao.NEVER_EXPIRE) {
-            RedisUtils.set(key, value);
+            RedisKit.set(key, value);
         } else {
-            RedisUtils.set(key, value, Duration.ofSeconds(timeout));
+            RedisKit.set(key, value, Duration.ofSeconds(timeout));
         }
     }
 
@@ -63,12 +63,12 @@ public class SaTokenDaoRedisImpl implements SaTokenDao {
 
     @Override
     public void delete(String key) {
-        RedisUtils.delete(key);
+        RedisKit.delete(key);
     }
 
     @Override
     public long getTimeout(String key) {
-        long timeout = RedisUtils.getTimeToLive(key);
+        long timeout = RedisKit.getTimeToLive(key);
         return timeout < 0 ? timeout : timeout / 1000;
     }
 
@@ -83,12 +83,12 @@ public class SaTokenDaoRedisImpl implements SaTokenDao {
             }
             return;
         }
-        RedisUtils.expire(key, Duration.ofSeconds(timeout));
+        RedisKit.expire(key, Duration.ofSeconds(timeout));
     }
 
     @Override
     public Object getObject(String key) {
-        return RedisUtils.get(key);
+        return RedisKit.get(key);
     }
 
     @Override
@@ -98,9 +98,9 @@ public class SaTokenDaoRedisImpl implements SaTokenDao {
         }
         // 判断是否为永不过期
         if (timeout == SaTokenDao.NEVER_EXPIRE) {
-            RedisUtils.set(key, object);
+            RedisKit.set(key, object);
         } else {
-            RedisUtils.set(key, object, Duration.ofSeconds(timeout));
+            RedisKit.set(key, object, Duration.ofSeconds(timeout));
         }
     }
 
@@ -116,7 +116,7 @@ public class SaTokenDaoRedisImpl implements SaTokenDao {
 
     @Override
     public void deleteObject(String key) {
-        RedisUtils.delete(key);
+        RedisKit.delete(key);
     }
 
     @Override
@@ -135,12 +135,12 @@ public class SaTokenDaoRedisImpl implements SaTokenDao {
             }
             return;
         }
-        RedisUtils.expire(key, Duration.ofSeconds(timeout));
+        RedisKit.expire(key, Duration.ofSeconds(timeout));
     }
 
     @Override
     public List<String> searchData(String prefix, String keyword, int start, int size, boolean sortType) {
-        Collection<String> keys = RedisUtils.keys("%s*%s*".formatted(prefix, keyword));
+        Collection<String> keys = RedisKit.keys("%s*%s*".formatted(prefix, keyword));
         List<String> list = new ArrayList<>(keys);
         return SaFoxUtil.searchList(list, start, size, sortType);
     }

@@ -1,6 +1,6 @@
 package cn.daben.beast.autoconfigure.cache;
 
-import org.apache.commons.lang.StringUtils;
+import cn.daben.beast.toolkit.StringKit;
 import org.redisson.api.NameMapper;
 
 /**
@@ -16,7 +16,7 @@ public class KeyPrefixHandler implements NameMapper {
 
     public KeyPrefixHandler(String keyPrefix) {
         //前缀为空 则返回空前缀
-        this.keyPrefix = StringUtils.isBlank(keyPrefix) ? "" : keyPrefix + ":";
+        this.keyPrefix = StringKit.isBlank(keyPrefix) ? "" : keyPrefix + ":";
     }
 
     /**
@@ -24,10 +24,10 @@ public class KeyPrefixHandler implements NameMapper {
      */
     @Override
     public String map(String name) {
-        if (StringUtils.isBlank(name)) {
+        if (StringKit.isBlank(name)) {
             return null;
         }
-        if (StringUtils.isNotBlank(keyPrefix) && !name.startsWith(keyPrefix)) {
+        if (StringKit.isNotBlank(keyPrefix) && !name.startsWith(keyPrefix)) {
             return keyPrefix + name;
         }
         return name;
@@ -38,10 +38,10 @@ public class KeyPrefixHandler implements NameMapper {
      */
     @Override
     public String unmap(String name) {
-        if (StringUtils.isBlank(name)) {
+        if (StringKit.isBlank(name)) {
             return null;
         }
-        if (StringUtils.isNotBlank(keyPrefix) && name.startsWith(keyPrefix)) {
+        if (StringKit.isNotBlank(keyPrefix) && name.startsWith(keyPrefix)) {
             return name.substring(keyPrefix.length());
         }
         return name;

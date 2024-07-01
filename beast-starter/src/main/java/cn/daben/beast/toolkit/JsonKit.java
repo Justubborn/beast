@@ -9,7 +9,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.exc.MismatchedInputException;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
-import org.apache.commons.lang.StringUtils;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -57,7 +56,7 @@ public class JsonKit {
      * @throws RuntimeException 如果转换过程中发生IO异常，则抛出运行时异常
      */
     public static <T> T parseObject(String text, Class<T> clazz) {
-        if (StringUtils.isEmpty(text)) {
+        if (StringKit.isEmpty(text)) {
             return null;
         }
         try {
@@ -97,7 +96,7 @@ public class JsonKit {
      * @throws RuntimeException 如果转换过程中发生IO异常，则抛出运行时异常
      */
     public static <T> T parseObject(String text, TypeReference<T> typeReference) {
-        if (StringUtils.isBlank(text)) {
+        if (StringKit.isBlank(text)) {
             return null;
         }
         try {
@@ -115,7 +114,7 @@ public class JsonKit {
      * @throws RuntimeException 如果转换过程中发生IO异常，则抛出运行时异常
      */
     public static Dict parseMap(String text) {
-        if (StringUtils.isBlank(text)) {
+        if (StringKit.isBlank(text)) {
             return null;
         }
         try {
@@ -136,7 +135,7 @@ public class JsonKit {
      * @throws RuntimeException 如果转换过程中发生IO异常，则抛出运行时异常
      */
     public static List<Dict> parseArrayMap(String text) {
-        if (StringUtils.isBlank(text)) {
+        if (StringKit.isBlank(text)) {
             return null;
         }
         try {
@@ -156,7 +155,7 @@ public class JsonKit {
      * @throws RuntimeException 如果转换过程中发生IO异常，则抛出运行时异常
      */
     public static <T> List<T> parseArray(String text, Class<T> clazz) {
-        if (StringUtils.isEmpty(text)) {
+        if (StringKit.isEmpty(text)) {
             return new ArrayList<>();
         }
         try {

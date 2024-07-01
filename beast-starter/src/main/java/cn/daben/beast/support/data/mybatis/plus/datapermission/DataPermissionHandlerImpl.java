@@ -18,8 +18,8 @@ package cn.daben.beast.support.data.mybatis.plus.datapermission;
 
 import cn.daben.beast.constant.StringConst;
 import cn.daben.beast.support.data.mybatis.plus.DataScope;
+import cn.daben.beast.toolkit.StringKit;
 import cn.hutool.core.text.CharSequenceUtil;
-import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.baomidou.mybatisplus.extension.plugins.handler.DataPermissionHandler;
 import net.sf.jsqlparser.expression.Expression;
 import net.sf.jsqlparser.expression.Function;
@@ -226,7 +226,7 @@ public class DataPermissionHandlerImpl implements DataPermissionHandler {
      * @return 带表别名字段
      */
     private Column buildColumn(String tableAlias, String columnName) {
-        if (StringUtils.isNotEmpty(tableAlias)) {
+        if (StringKit.isNotEmpty(tableAlias)) {
             return new Column("%s.%s".formatted(tableAlias, columnName));
         }
         return new Column(columnName);

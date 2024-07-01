@@ -1,6 +1,6 @@
 package cn.daben.beast.autoconfigure.cache;
 
-import org.dromara.common.core.utils.SpringUtils;
+import cn.daben.beast.toolkit.SpringContextHolder;
 import org.springframework.cache.Cache;
 
 import java.util.concurrent.Callable;
@@ -13,7 +13,7 @@ import java.util.concurrent.Callable;
 public class CaffeineCacheDecorator implements Cache {
 
     private static final com.github.benmanes.caffeine.cache.Cache<Object, Object>
-        CAFFEINE = SpringUtils.getBean("caffeine");
+        CAFFEINE = SpringContextHolder.getBean("caffeine");
 
     private final Cache cache;
 

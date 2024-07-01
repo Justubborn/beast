@@ -1,5 +1,6 @@
 package cn.daben.beast.autoconfigure.doc;
 
+import cn.daben.beast.toolkit.StringKit;
 import cn.hutool.core.io.IoUtil;
 import io.swagger.v3.core.jackson.TypeNameResolver;
 import io.swagger.v3.core.util.AnnotationsUtils;
@@ -9,7 +10,6 @@ import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.Paths;
 import io.swagger.v3.oas.models.tags.Tag;
-import org.apache.commons.lang3.StringUtils;
 import org.springdoc.core.customizers.OpenApiBuilderCustomizer;
 import org.springdoc.core.customizers.ServerBaseUrlCustomizer;
 import org.springdoc.core.properties.SpringDocConfigProperties;
@@ -152,8 +152,8 @@ public class OpenApiHandler extends OpenAPIService {
 
         if (!CollectionUtils.isEmpty(tagsStr))
             tagsStr = tagsStr.stream()
-                .map(str -> propertyResolverUtils.resolve(str, locale))
-                .collect(Collectors.toSet());
+                    .map(str -> propertyResolverUtils.resolve(str, locale))
+                    .collect(Collectors.toSet());
 
         if (springdocTags.containsKey(handlerMethod)) {
             Tag tag = springdocTags.get(handlerMethod);
@@ -179,7 +179,7 @@ public class OpenApiHandler extends OpenAPIService {
 
             if (javadocProvider.isPresent()) {
                 String description = javadocProvider.get().getClassJavadoc(handlerMethod.getBeanType());
-                if (StringUtils.isNotBlank(description)) {
+                if (StringKit.isNotBlank(description)) {
                     Tag tag = new Tag();
 
                     // 自定义部分 修改使用java注释当tag名
@@ -209,7 +209,7 @@ public class OpenApiHandler extends OpenAPIService {
 
         // Handle SecurityRequirement at operation level
         io.swagger.v3.oas.annotations.security.SecurityRequirement[] securityRequirements = securityParser
-            .getSecurityRequirements(handlerMethod);
+                .getSecurityRequirements(handlerMethod);
         if (securityRequirements != null) {
             if (securityRequirements.length == 0)
                 operation.setSecurity(Collections.emptyList());
@@ -223,9 +223,9 @@ public class OpenApiHandler extends OpenAPIService {
     private void buildTagsFromMethod(Method method, Set<Tag> tags, Set<String> tagsStr, Locale locale) {
         // method tags
         Set<Tags> tagsSet = AnnotatedElementUtils
-            .findAllMergedAnnotations(method, Tags.class);
+                .findAllMergedAnnotations(method, Tags.class);
         Set<io.swagger.v3.oas.annotations.tags.Tag> methodTags = tagsSet.stream()
-            .flatMap(x -> Stream.of(x.value())).collect(Collectors.toSet());
+                .flatMap(x -> Stream.of(x.value())).collect(Collectors.toSet());
         methodTags.addAll(AnnotatedElementUtils.findAllMergedAnnotations(method, io.swagger.v3.oas.annotations.tags.Tag.class));
         if (!CollectionUtils.isEmpty(methodTags)) {
             tagsStr.addAll(methodTags.stream().map(tag -> propertyResolverUtils.resolve(tag.name(), locale)).collect(Collectors.toSet()));
@@ -236,7 +236,7 @@ public class OpenApiHandler extends OpenAPIService {
 
     private void addTags(List<io.swagger.v3.oas.annotations.tags.Tag> sourceTags, Set<Tag> tags, Locale locale) {
         Optional<Set<Tag>> optionalTagSet = AnnotationsUtils
-            .getTags(sourceTags.toArray(new io.swagger.v3.oas.annotations.tags.Tag[0]), true);
+                .getTags(sourceTags.toArray(new io.swagger.v3.oas.annotations.tags.Tag[0]), true);
         optionalTagSet.ifPresent(tagsSet -> {
             tagsSet.forEach(tag -> {
                 tag.name(propertyResolverUtils.resolve(tag.getName(), locale));

@@ -136,7 +136,7 @@ public class SpringDocAutoConfig extends AbstractAutoConfig implements WebMvcCon
 //    public OpenApiCustomizer openApiCustomizer(ServerProperties serverProperties) {
 //        String contextPath = serverProperties.getServlet().getContextPath();
 //        String finalContextPath;
-//        if (StringUtils.isBlank(contextPath) || "/".equals(contextPath)) {
+//        if (StringKit.isBlank(contextPath) || "/".equals(contextPath)) {
 //            finalContextPath = "";
 //        } else {
 //            finalContextPath = contextPath;

@@ -41,7 +41,6 @@ import java.util.concurrent.ConcurrentMap;
  * 重写 cacheName 处理方法 支持多参数
  *
  * @author Nikita Koksharov
- *
  */
 @Setter
 public class SpringCacheManager implements CacheManager {
