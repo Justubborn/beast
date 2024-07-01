@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package cn.daben.beast.support;
+package cn.daben.beast.autoconfigure.jackson;
 
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.SerializerProvider;

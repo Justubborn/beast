@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package cn.daben.beast.autoconfigure.redis;
+package cn.daben.beast.autoconfigure.cache;
 
 import lombok.Data;
 import org.redisson.config.ClusterServersConfig;

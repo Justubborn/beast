@@ -17,7 +17,6 @@
 package cn.daben.beast.autoconfigure.jackson;
 
 import cn.daben.beast.autoconfigure.AbstractAutoConfig;
-import cn.daben.beast.support.BigNumberSerializer;
 import cn.hutool.core.date.DatePattern;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;

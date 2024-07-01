@@ -17,6 +17,7 @@
         <module>beast-starter</module>
         <module>beast-doc-starter</module>
         <module>beast-satoken-starter</module>
+        <module>beast-livekit-starter</module>
     </modules>
 
     <properties>
@@ -45,6 +46,7 @@
         <ip2region.version>3.1.11</ip2region.version>
         <cosid.version>2.6.8</cosid.version>
         <springdoc.version>2.5.0</springdoc.version>
+        <livekit.version>0.6.1</livekit.version>
     </properties>
 
     <dependencyManagement>
@@ -132,6 +134,11 @@
                 <groupId>me.ahoo.cosid</groupId>
                 <artifactId>cosid-spring-boot-starter</artifactId>
                 <version>${cosid.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.livekit</groupId>
+                <artifactId>livekit-server</artifactId>
+                <version>${livekit.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

@@ -1,4 +1,4 @@
-package cn.daben.beast.autoconfigure.redis;
+package cn.daben.beast.autoconfigure.cache;
 
 import cn.daben.beast.autoconfigure.PropertiesConst;
 import cn.daben.beast.constant.StringConst;

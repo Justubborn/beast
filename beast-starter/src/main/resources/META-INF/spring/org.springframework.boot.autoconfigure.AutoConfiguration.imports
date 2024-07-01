@@ -4,5 +4,5 @@ cn.daben.beast.autoconfigure.doc.SpringDocAutoConfig
 cn.daben.beast.autoconfigure.jackson.JacksonAutoConfig
 cn.daben.beast.autoconfigure.security.CryptoAutoConfig
 cn.daben.beast.autoconfigure.security.PasswordAutoConfig
-cn.daben.beast.autoconfigure.redis.RedissonAutoConfiguration
+cn.daben.beast.autoconfigure.cache.RedissonAutoConfiguration
 cn.daben.beast.autoconfigure.mybatis.MybatisPlusAutoConfig
