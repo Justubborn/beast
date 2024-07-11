@@ -40,7 +40,7 @@ import org.springframework.http.HttpStatus;
 
 @Data
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
-public class RespEntity<T> {
+public class Resp<T> {
     
     private static final int SUCCESS_CODE = HttpStatus.OK.value();
     private static final int FAIL_CODE = HttpStatus.INTERNAL_SERVER_ERROR.value();
@@ -69,7 +69,7 @@ public class RespEntity<T> {
      */
     private T data;
 
-    private RespEntity(boolean success, int code, String msg, T data) {
+    private Resp(boolean success, int code, String msg, T data) {
         this.success = success;
         this.code = code;
         this.msg = msg;
@@ -82,8 +82,8 @@ public class RespEntity<T> {
      * @param <T> 响应数据类型
      * @return R /
      */
-    public static <T> RespEntity<T> ok() {
-        return new RespEntity<>(true, SUCCESS_CODE, "操作成功", null);
+    public static <T> Resp<T> ok() {
+        return new Resp<>(true, SUCCESS_CODE, "操作成功", null);
     }
 
     /**
@@ -93,8 +93,8 @@ public class RespEntity<T> {
      * @param <T>  响应数据类型
      * @return R /
      */
-    public static <T> RespEntity<T> ok(T data) {
-        return new RespEntity<>(true, SUCCESS_CODE, "操作成功", data);
+    public static <T> Resp<T> ok(T data) {
+        return new Resp<>(true, SUCCESS_CODE, "操作成功", data);
     }
 
     /**
@@ -104,8 +104,8 @@ public class RespEntity<T> {
      * @param <T> 响应数据类型
      * @return R /
      */
-    public static <T> RespEntity<T> ok(String msg) {
-        return new RespEntity<>(true, SUCCESS_CODE, msg, null);
+    public static <T> Resp<T> ok(String msg) {
+        return new Resp<>(true, SUCCESS_CODE, msg, null);
     }
 
     /**
@@ -116,8 +116,8 @@ public class RespEntity<T> {
      * @param <T>  响应数据类型
      * @return R /
      */
-    public static <T> RespEntity<T> ok(String msg, T data) {
-        return new RespEntity<>(true, SUCCESS_CODE, msg, data);
+    public static <T> Resp<T> ok(String msg, T data) {
+        return new Resp<>(true, SUCCESS_CODE, msg, data);
     }
 
     /**
@@ -126,8 +126,8 @@ public class RespEntity<T> {
      * @param <T> 响应数据类型
      * @return R /
      */
-    public static <T> RespEntity<T> fail() {
-        return new RespEntity<>(false, FAIL_CODE, "操作失败", null);
+    public static <T> Resp<T> fail() {
+        return new Resp<>(false, FAIL_CODE, "操作失败", null);
     }
 
     /**
@@ -137,8 +137,8 @@ public class RespEntity<T> {
      * @param <T> 响应数据类型
      * @return R /
      */
-    public static <T> RespEntity<T> fail(String msg) {
-        return new RespEntity<>(false, FAIL_CODE, msg, null);
+    public static <T> Resp<T> fail(String msg) {
+        return new Resp<>(false, FAIL_CODE, msg, null);
     }
 
     /**
@@ -148,8 +148,8 @@ public class RespEntity<T> {
      * @param <T>  响应数据类型
      * @return R /
      */
-    public static <T> RespEntity<T> fail(T data) {
-        return new RespEntity<>(false, FAIL_CODE, "操作失败", data);
+    public static <T> Resp<T> fail(T data) {
+        return new Resp<>(false, FAIL_CODE, "操作失败", data);
     }
 
     /**
@@ -160,8 +160,8 @@ public class RespEntity<T> {
      * @param <T>  响应数据类型
      * @return R /
      */
-    public static <T> RespEntity<T> fail(String msg, T data) {
-        return new RespEntity<>(false, FAIL_CODE, msg, data);
+    public static <T> Resp<T> fail(String msg, T data) {
+        return new Resp<>(false, FAIL_CODE, msg, data);
     }
 
     /**
@@ -172,8 +172,8 @@ public class RespEntity<T> {
      * @param <T>  响应数据类型
      * @return R /
      */
-    public static <T> RespEntity<T> fail(int code, String msg) {
-        return new RespEntity<>(false, code, msg, null);
+    public static <T> Resp<T> fail(int code, String msg) {
+        return new Resp<>(false, code, msg, null);
     }
 
 }

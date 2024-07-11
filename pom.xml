@@ -47,6 +47,7 @@
         <cosid.version>2.6.8</cosid.version>
         <springdoc.version>2.5.0</springdoc.version>
         <livekit.version>0.6.1</livekit.version>
+        <easy-captcha.version>1.6.2</easy-captcha.version>
     </properties>
 
     <dependencyManagement>
@@ -139,6 +140,11 @@
                 <groupId>io.livekit</groupId>
                 <artifactId>livekit-server</artifactId>
                 <version>${livekit.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.github.whvcse</groupId>
+                <artifactId>easy-captcha</artifactId>
+                <version>${easy-captcha.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

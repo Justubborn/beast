@@ -16,6 +16,7 @@
 
 package cn.daben.beast.autoconfigure.security;
 
+import cn.daben.beast.autoconfigure.AbstractAutoConfig;
 import cn.daben.beast.autoconfigure.PropertiesConst;
 import cn.daben.beast.toolkit.CheckKit;
 import cn.hutool.core.collection.CollUtil;
@@ -55,7 +56,7 @@ import java.util.Map;
 @AutoConfiguration
 @EnableConfigurationProperties(PasswordProperties.class)
 @ConditionalOnProperty(prefix = PropertiesConst.PASSWORD, name = PropertiesConst.ENABLED, matchIfMissing = true)
-public class PasswordAutoConfig {
+public class PasswordAutoConfig extends AbstractAutoConfig {
 
     private final PasswordProperties properties;
 

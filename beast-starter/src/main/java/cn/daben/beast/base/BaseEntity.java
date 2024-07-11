@@ -41,18 +41,21 @@ public class BaseEntity implements Serializable {
     protected Integer origin;
 
     /**
+     * @hidden 
      * 数据状态:0-禁用,1-正常
      */
-    @TableField(fill = FieldFill.INSERT)
-    protected Integer status;
+//    @TableField(fill = FieldFill.INSERT)
+//    protected Integer status;
     /**
+     * @hidden
      * 创建者
      */
-
+    
     @TableField(fill = FieldFill.INSERT)
     protected Long creator;
 
     /**
+     * @hidden
      * 创建时间
      */
     @TableField(fill = FieldFill.INSERT)
@@ -60,6 +63,7 @@ public class BaseEntity implements Serializable {
 
     /**
      * 修改者
+     * @hidden
      */
     @TableField(fill = FieldFill.UPDATE)
     protected Long modifier;
@@ -69,4 +73,10 @@ public class BaseEntity implements Serializable {
      */
     @TableField(fill = FieldFill.UPDATE)
     protected LocalDateTime modified;
+
+    public boolean isSystem() {
+        return 1 == origin;
+    }
+    
+    
 }

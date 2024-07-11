@@ -16,7 +16,7 @@
 
 package cn.daben.beast.support.web;
 
-import cn.daben.beast.base.RespEntity;
+import cn.daben.beast.base.Resp;
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.json.JSONUtil;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -61,7 +61,7 @@ public class GlobalErrorHandler extends BasicErrorController {
         Map<String, Object> errorAttributeMap = super.getErrorAttributes(request, super.getErrorAttributeOptions(request, MediaType.TEXT_HTML));
         String path = (String) errorAttributeMap.get("path");
         HttpStatus status = super.getStatus(request);
-        RespEntity<Object> result = RespEntity.fail(status.value(), (String) errorAttributeMap.get("error"));
+        Resp<Object> result = Resp.fail(status.value(), (String) errorAttributeMap.get("error"));
         result.setData(path);
         try {
             response.setStatus(HttpStatus.OK.value());
@@ -81,7 +81,7 @@ public class GlobalErrorHandler extends BasicErrorController {
         Map<String, Object> errorAttributeMap = super.getErrorAttributes(request, super.getErrorAttributeOptions(request, MediaType.ALL));
         String path = (String) errorAttributeMap.get("path");
         HttpStatus status = super.getStatus(request);
-        RespEntity<Object> result = RespEntity.fail(status.value(), (String) errorAttributeMap.get("error"));
+        Resp<Object> result = Resp.fail(status.value(), (String) errorAttributeMap.get("error"));
         result.setData(path);
         if (log.isErrorEnabled()) {
             log.error("请求地址 [{}]，发生错误，错误信息：{}。", path, JSONUtil.toJsonStr(errorAttributeMap));

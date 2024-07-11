@@ -1,10 +1,14 @@
 package cn.daben.beast.base;
 
+import com.baomidou.mybatisplus.annotation.IEnum;
+
+import java.io.Serializable;
+
 /**
  * @author Justubborn
  * @since 2023/2/24
  */
-public interface BaseEnum<T> {
+public interface BaseEnum<T extends Serializable> extends IEnum<T> {
     T getValue();
 
     /**

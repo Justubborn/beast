@@ -42,7 +42,7 @@ public @interface TreeField {
      *
      * @return 父 ID 字段名
      */
-    String parentIdKey() default "parentId";
+    String parentIdKey() default "parent_id";
 
     /**
      * 名称字段名

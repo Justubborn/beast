@@ -52,7 +52,7 @@ public abstract class BaseServiceImpl<M extends BaseMapper<T>, T extends BaseEnt
 
     @Override
     public T get(Long id) {
-        return null;
+        return super.getById(id);
     }
 
     @Override

@@ -6,3 +6,4 @@ cn.daben.beast.autoconfigure.security.CryptoAutoConfig
 cn.daben.beast.autoconfigure.security.PasswordAutoConfig
 cn.daben.beast.autoconfigure.cache.RedissonAutoConfiguration
 cn.daben.beast.autoconfigure.mybatis.MybatisPlusAutoConfig
+cn.daben.beast.autoconfigure.captcha.GraphicCaptchaAutoConfig
