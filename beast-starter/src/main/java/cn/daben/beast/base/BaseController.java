@@ -2,11 +2,15 @@ package cn.daben.beast.base;
 
 import cn.daben.beast.model.query.PageQuery;
 import cn.daben.beast.model.query.SortQuery;
+import cn.daben.beast.support.curd.Api;
+import cn.hutool.core.lang.tree.Tree;
+import io.swagger.v3.oas.annotations.Operation;
 import lombok.Getter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.List;
 
@@ -87,4 +91,18 @@ public abstract class BaseController< T extends BaseEntity> {
     public Object page(@Validated T entity, PageQuery query) {
         return Resp.ok(getService().page(entity, query));
     }
+
+    /**
+     * 查询树列表
+     *
+     * @param query     查询条件
+     * @param sortQuery 排序查询条件
+     * @return 树列表信息
+     */
+    @GetMapping("/tree")
+    public Object tree(T query, SortQuery sortQuery) {
+       // checkPermission(Api.LIST);
+        return Resp.ok(getService().tree(query, sortQuery, false));
+    }
+
 }

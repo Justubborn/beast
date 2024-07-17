@@ -4,10 +4,16 @@ import cn.daben.beast.constant.StringConst;
 import cn.daben.beast.model.query.PageQuery;
 import cn.daben.beast.model.query.SortQuery;
 import cn.daben.beast.model.resp.PageResp;
+import cn.daben.beast.support.curd.TreeField;
+import cn.daben.beast.support.curd.TreeUtils;
 import cn.daben.beast.toolkit.ReflectKit;
 import cn.daben.beast.toolkit.StringKit;
 import cn.daben.beast.toolkit.ValidationKit;
 import cn.hutool.core.collection.CollUtil;
+import cn.hutool.core.lang.tree.Tree;
+import cn.hutool.core.lang.tree.TreeNodeConfig;
+import cn.hutool.core.text.CharSequenceUtil;
+import cn.hutool.core.util.ReflectUtil;
 import cn.hutool.json.JSONUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
@@ -15,6 +21,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.data.domain.Sort;
 
 import java.lang.reflect.Field;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -80,6 +87,37 @@ public abstract class BaseServiceImpl<M extends BaseMapper<T>, T extends BaseEnt
         beforeDelete(ids);
         baseMapper.deleteBatchIds(ids);
         afterDelete(ids);
+    }
+
+
+    @Override
+    public List<Tree<Long>> tree(T query, SortQuery sortQuery, boolean isSimple) {
+        List<T> list = this.list(query, sortQuery);
+        if (CollUtil.isEmpty(list)) {
+            return new ArrayList<>(0);
+        }
+        // 如果构建简单树结构，则不包含基本树结构之外的扩展字段
+        TreeNodeConfig treeNodeConfig = TreeUtils.DEFAULT_CONFIG;
+        TreeField treeField = entityClass.getDeclaredAnnotation(TreeField.class);
+        if (!isSimple) {
+            // 根据 @TreeField 配置生成树结构配置
+            treeNodeConfig = TreeUtils.genTreeNodeConfig(treeField);
+        }
+        // 构建树
+        return TreeUtils.build(list, treeNodeConfig, (node, tree) -> {
+            // 转换器
+            tree.setId(ReflectUtil.invoke(node, CharSequenceUtil.genGetter(treeField.value())));
+            tree.setParentId(ReflectUtil.invoke(node, CharSequenceUtil.genGetter(treeField.parentIdKey())));
+            tree.setName(ReflectUtil.invoke(node, CharSequenceUtil.genGetter(treeField.nameKey())));
+            tree.setWeight(ReflectUtil.invoke(node, CharSequenceUtil.genGetter(treeField.weightKey())));
+            if (!isSimple) {
+                List<Field> fieldList = ReflectKit.getNonStaticFields(entityClass);
+                fieldList.removeIf(f -> CharSequenceUtil.equalsAnyIgnoreCase(f.getName(), treeField.value(), treeField
+                        .parentIdKey(), treeField.nameKey(), treeField.weightKey(), treeField.childrenKey()));
+                fieldList.forEach(f -> tree.putExtra(f.getName(), ReflectUtil.invoke(node, CharSequenceUtil.genGetter(f
+                        .getName()))));
+            }
+        });
     }
 
 
